@@ -1,0 +1,127 @@
+CREATE DATABASE vaccination_db;
+USE vaccination_db;
+
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(20) NOT NULL,   -- admin / parent / hospital
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE hospitals (
+    hospital_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    hospital_name VARCHAR(150) NOT NULL,
+    address VARCHAR(255),
+    location VARCHAR(100),
+    status TINYINT DEFAULT 1,   -- 1 = active, 0 = inactive
+    
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE children (
+    child_id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT NOT NULL,
+    child_name VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    gender VARCHAR(10),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (parent_id) REFERENCES users(user_id)
+        ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE vaccines (
+    vaccine_id INT AUTO_INCREMENT PRIMARY KEY,
+    vaccine_name VARCHAR(100) NOT NULL,
+    availability TINYINT DEFAULT 1   -- 1 = available, 0 = unavailable
+);
+
+
+CREATE TABLE bookings (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    child_id INT NOT NULL,
+    hospital_id INT NOT NULL,
+    vaccine_id INT NOT NULL,
+    booking_date DATE NOT NULL,
+    status TINYINT DEFAULT 0, 
+    -- 0 = pending, 1 = approved, 2 = vaccinated, 3 = rejected
+    
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (child_id) REFERENCES children(child_id)
+        ON DELETE CASCADE,
+        
+    FOREIGN KEY (hospital_id) REFERENCES hospitals(hospital_id)
+        ON DELETE CASCADE,
+        
+    FOREIGN KEY (vaccine_id) REFERENCES vaccines(vaccine_id)
+        ON DELETE CASCADE
+);
+
+
+CREATE TABLE vaccination_reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT NOT NULL,
+    vaccination_date DATE,
+    remarks VARCHAR(255),
+    
+    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id)
+        ON DELETE CASCADE
+);
+
+
+USE vaccination_db;
+
+-- Insert sample vaccines with recommended ages (in days)
+INSERT INTO vaccines (vaccine_name) VALUES
+('BCG (At Birth)'),
+('Hepatitis B (Birth Dose)'),
+('OPV (6 weeks)'),
+('Pentavalent 1 (6 weeks)'),
+('PCV 1 (6 weeks)'),
+('Rotavirus 1 (6 weeks)'),
+('OPV (10 weeks)'),
+('Pentavalent 2 (10 weeks)'),
+('PCV 2 (10 weeks)'),
+('Rotavirus 2 (10 weeks)'),
+('OPV (14 weeks)'),
+('Pentavalent 3 (14 weeks)'),
+('PCV 3 (14 weeks)'),
+('Rotavirus 3 (14 weeks)'),
+('IPV (14 weeks)'),
+('Measles 1 (9 months)'),
+('Vitamin A (9 months)'),
+('MMR (15 months)'),
+('Booster DPT (16-24 months)'),
+('OPV Booster (16-24 months)'),
+('Vitamin A (16-24 months)'),
+('Typhoid Conjugate Vaccine (2 years)'),
+('Hepatitis A (18 months)');
+
+-- Update children table to add weight
+ALTER TABLE children 
+ADD COLUMN weight DECIMAL(5,2),
+ADD COLUMN blood_group VARCHAR(5);
+
+
+-- First, make hospital_id allow NULL
+ALTER TABLE bookings MODIFY COLUMN hospital_id INT NULL;
+
+-- Then update the foreign key constraint
+ALTER TABLE bookings DROP FOREIGN KEY bookings_ibfk_2;
+
+ALTER TABLE bookings 
+ADD CONSTRAINT bookings_ibfk_2 
+FOREIGN KEY (hospital_id) REFERENCES hospitals(hospital_id) 
+ON DELETE SET NULL;
+
