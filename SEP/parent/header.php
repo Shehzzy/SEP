@@ -235,7 +235,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'parent') {
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <i class="fas fa-syringe fa-2x"></i>
                 <h2>Parent Dashboard</h2>
                 <p style="font-size: 0.9rem; opacity: 0.8;">Welcome, <?php echo $_SESSION['name']; ?></p>
             </div>
@@ -255,6 +254,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'parent') {
                 </a>
                 <a href="reports.php" class="menu-item">
                     <i class="fas fa-file-medical"></i> Vaccination Reports
+                </a>
+                <a href="profile.php" class="menu-item">
+                    <i class="fas fa-user"></i> My Profile
                 </a>
             </div>
         </div>

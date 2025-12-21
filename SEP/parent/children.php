@@ -44,7 +44,7 @@ $result = mysqli_query($conn, $sql);
             <td><?php echo $child['weight'] ? $child['weight'] . ' kg' : '-'; ?></td>
             <td><?php echo $child['blood_group'] ?: '-'; ?></td>
             <td>
-                <a href="vaccination_dates.php?child_id=<?php echo $child['child_id']; ?>" class="btn-small">Schedule</a>
+                <!-- <a href="vaccination_dates.php?child_id=<?php echo $child['child_id']; ?>" class="btn-small">Schedule</a> -->
                 <a href="book_hospital.php?child_id=<?php echo $child['child_id']; ?>" class="btn-small">Book</a>
                 <a href="view_child.php?child_id=<?php echo $child['child_id']; ?>" class="btn-small">View</a>
             </td>

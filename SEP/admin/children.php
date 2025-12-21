@@ -29,7 +29,6 @@ $result = mysqli_query($conn, $sql);
             <th>Parent</th>
             <!-- <th>Vaccination Progress</th> -->
             <th>Registered On</th>
-            <th>Actions</th>
         </tr>
         
         <?php while($row = mysqli_fetch_assoc($result)): 
@@ -61,11 +60,6 @@ $result = mysqli_query($conn, $sql);
                 </div>
             </td> -->
             <td><?php echo date('d M Y', strtotime($row['created_at'])); ?></td>
-            <td>
-                <a href="../parent/view_child.php?child_id=<?php echo $row['child_id']; ?>" class="btn-small" target="_blank">
-                    <i class="fas fa-eye"></i> View
-                </a>
-            </td>
         </tr>
         <?php endwhile; ?>
     </table>

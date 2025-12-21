@@ -39,39 +39,18 @@ if(isset($_SESSION['success'])) {
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
-                    <div class="form-options">
+                    <!-- <div class="form-options">
                         <label class="checkbox">
                             <input type="checkbox" name="remember">
                             <span>Remember me</span>
                         </label>
                         <a href="forgot-password.php" class="forgot-password">Forgot Password?</a>
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn-primary btn-block">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
                 </form>
 
-                <div class="login-divider">
-                    <span>or</span>
-                </div>
-
-                <div class="login-types">
-                    <p>What type of account do you have?</p>
-                    <div class="account-types">
-                        <button class="account-type" data-type="parent">
-                            <i class="fas fa-user"></i>
-                            Parent Account
-                        </button>
-                        <button class="account-type" data-type="hospital">
-                            <i class="fas fa-hospital"></i>
-                            Hospital Account
-                        </button>
-                        <button class="account-type" data-type="admin">
-                            <i class="fas fa-cog"></i>
-                            Admin Account
-                        </button>
-                    </div>
-                </div>
 
                 <p class="login-footer">
                     Don't have an account? <a href="register.php">Register here</a>

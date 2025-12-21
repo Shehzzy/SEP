@@ -9,6 +9,11 @@ $vaccine_id = $_GET['vaccine_id'] ?? 0;
 $hospitals_sql = "SELECT * FROM hospitals WHERE status = 1";
 $hospitals_result = mysqli_query($conn, $hospitals_sql);
 
+// CHILD NAME GET QUERY
+$child_name_query = "Select * from children where child_id=$child_id";
+$child_result = mysqli_query($conn, $child_name_query);
+$child_row = mysqli_fetch_assoc($child_result);
+
 $error = "";
 $success = "";
 
@@ -56,7 +61,7 @@ if ($_POST) {
     <?php else: ?>
     
     <div class="form-box">
-        <h2>Book Appointment</h2>
+        <h2>Book Appointment For <?php echo $child_row["child_name"] ?></h2>
         
         <form method="POST">
             <div class="input-group">

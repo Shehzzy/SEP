@@ -125,3 +125,28 @@ ADD CONSTRAINT bookings_ibfk_2
 FOREIGN KEY (hospital_id) REFERENCES hospitals(hospital_id) 
 ON DELETE SET NULL;
 
+
+-- Run these SQL queries in your database
+
+-- Hospital Vaccine Inventory
+CREATE TABLE IF NOT EXISTS hospital_vaccines (
+    hospital_vaccine_id INT AUTO_INCREMENT PRIMARY KEY,
+    hospital_id INT NOT NULL,
+    vaccine_id INT NOT NULL,
+    quantity INT DEFAULT 0,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (hospital_id) REFERENCES hospitals(hospital_id) ON DELETE CASCADE,
+    FOREIGN KEY (vaccine_id) REFERENCES vaccines(vaccine_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_hospital_vaccine (hospital_id, vaccine_id)
+);
+
+-- Initialize inventory for existing hospitals
+INSERT INTO hospital_vaccines (hospital_id, vaccine_id, quantity)
+SELECT h.hospital_id, v.vaccine_id, 100
+FROM hospitals h
+CROSS JOIN vaccines v;
+
+-- Add contact fields to hospitals table
+ALTER TABLE hospitals 
+ADD COLUMN IF NOT EXISTS contact_phone VARCHAR(20),
+ADD COLUMN IF NOT EXISTS contact_email VARCHAR(100);
